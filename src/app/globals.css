@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.logo-area a {
+    color: #fff;
+    position: relative;
+    z-index: 9999;
+    opacity: 1;
+}
