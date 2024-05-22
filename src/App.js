@@ -1,11 +1,11 @@
 import './App.css';
 import Hello from './components/Hello';
+import Index from './components/pages/posts/Index';
 
 function App() {
   return (
     <>
-      <Hello name="Afsar" />
-      <Hello name="Uddin" />
+      <Index />
     </>
   );
 }
