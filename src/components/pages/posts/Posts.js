@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
-function Index() {
+function Posts() {
     let url = `${process.env.REACT_APP_API_ROOT}/posts`;
     const [posts, setPost] = useState([]);
 
@@ -30,4 +30,4 @@ function Index() {
   )
 }
 
-export default Index
+export default Posts

@@ -1,11 +1,10 @@
 import './App.css';
-import Hello from './components/Hello';
-import Index from './components/pages/posts/Index';
+import Pages from './components/Pages';
 
 function App() {
   return (
     <>
-      <Index />
+      <Pages />
     </>
   );
 }
