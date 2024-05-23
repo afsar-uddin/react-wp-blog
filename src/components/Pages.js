@@ -5,6 +5,7 @@ import Posts from './pages/posts/Posts'
 import Navbar from './common/Navbar'
 import PostSingle from './pages/posts/PostSingle'
 import Login from './pages/login'
+import AddPost from './pages/AddPost'
 
 function Pages() {
   return (
@@ -14,6 +15,7 @@ function Pages() {
         <Route path="/" element={<Home />} />
         <Route path="/posts" element={<Posts />} />
         <Route path="/posts/:id" element={<PostSingle />} />
+        <Route path="/addpost" element={<AddPost />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </>
