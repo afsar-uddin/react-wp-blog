@@ -1,20 +1,27 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { logout } from '../../../redux/slice/authSlice';
 
-function Navbar() {
-  const auth = localStorage.getItem('user');
+function Navbar({authUser}) {
+  // const auth = localStorage.getItem('user');
+  
+  console.log('auth is ', authUser);
+
+  const dispatch = useDispatch();
 
   return (
     <div>
         <ul className='flex gap-5 p-5'>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/posts">Posts</Link></li>
-            {!auth ? (
+            {!authUser?.token ? (
               <li><Link to="/login">Login</Link></li>  
             ) : (
               <>
                 <li><Link to="/addpost">Add Post</Link></li>
-                <li><Link to="/logout">Logout</Link></li>
+                <li><button onClick={() => dispatch(logout())}>Logout</button></li>
+                <li><Link to="/profile">Hi {authUser.user_display_name}</Link></li>
               </>
             )}
         </ul>

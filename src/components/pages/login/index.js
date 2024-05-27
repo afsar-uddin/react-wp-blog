@@ -1,14 +1,19 @@
-import axios from 'axios';
 import { useFormik } from 'formik'
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
+import { login } from '../../../redux/slice/authSlice';
 
 function Login() {
+    const dispatch = useDispatch();
+
+    const auth = useSelector(state => state.auth);
+
     const formik = useFormik({
         // init values
         initialValues: {
-            email: '',
-            password: ''
+            email: 'afsarwebdev@gmail.com',
+            password: 'afsarme'
         },
 
         // validation schema
@@ -20,11 +25,13 @@ function Login() {
         // on submit
         onSubmit: (data) => {
 
-            const {email, password} = data;
+            // const {email, password} = data;
 
+            // console.log('data is ', data);
+
+            dispatch(login(data))
+            /*
             let url = `${process.env.REACT_APP_API_AUTH_TOKEN}`;
-            
-            // axios.post(url, {
             axios.post("http://afsarme.test/wp-json/jwt-auth/v1/token", {
                 "username": email,
                 "password": password
@@ -39,8 +46,10 @@ function Login() {
             }).catch((err) => {
                 console.log('Errors ', err);
             })
-
             console.log('formik data ', data);
+
+            */
+
         }
 
     })
@@ -82,10 +91,13 @@ function Login() {
                             </div>
                             <button
                                 type="submit"
-                                className='inline-block px-7 py-3 bg-blue-600 text-white'
+                                className='inline-block px-7 py-3 bg-blue-600 text-white disabled:cursor-wait disabled:bg-blue-500 disabled:text-slate-100'
                                 data-mdb-ripple='true'
                                 data-mdb-ripple-color='light'
-                            >Submit</button>
+                                disabled={auth.isLoading}
+                            >
+                                Submit
+                            </button>
                         </form>
                     </div>
                 </div>
