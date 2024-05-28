@@ -3,26 +3,31 @@ import { useFormik } from 'formik'
 import React from 'react'
 import * as Yup from 'yup';
 
-function AddPost() {
-    const user = localStorage.getItem('user');
+function AddPost( { authUser } ) {
+    // const user = localStorage.getItem('user');
     // console.log('user token is ', user.token);
+
     const formik = useFormik({
         // init 
         initialValues: {
             title: '',
-            content: ''
+            content: '',
+            featured_image: null
         },
 
          // validation schema
          validationSchema: Yup.object({
             title: Yup.string().required(),
-            content: Yup.string().required()
+            content: Yup.string().required(),
+            featured_image: Yup.mixed().required()
         }),
 
         // submit
-        onSubmit: (data) => {
+        onSubmit: async (data) => {
             // console.log('data is ', data);
-            const {token} = JSON.parse(user);
+            // const {token} = JSON.parse(user);
+            const {token} = authUser;
+
 
             // console.log('token is ', token);
 
@@ -30,10 +35,32 @@ function AddPost() {
                 Authorization : `Bearer ${token}`
             }
 
+            let featuredMediaId = 0;
+
+            if(data.featured_image) {
+                // featured image
+                const formData = new FormData();
+                formData.append('file', data.featured_image);
+    
+                const res = await axios.post(`${process.env.REACT_APP_API_ROOT}/media`, formData, {
+                    headers: headers,
+                    'Content-Type': 'multipart/form-data'
+                })
+                featuredMediaId = res.data.id
+            }
+            
+            // create post
             const post = {
-                ...data,
+                // ...data,
+                title: data.title,
+                content: data.content,
                 status: 'publish'
             }
+
+            if(featuredMediaId) post.featured_media = featuredMediaId;
+
+
+            // console.log('post', post);
 
             axios.post(`${process.env.REACT_APP_API_ROOT}/posts`, post, {
                 headers: headers
@@ -47,8 +74,8 @@ function AddPost() {
         }
     });
 
-    console.log('values of formik ', formik.values);
-    console.log('errors of formik ', formik.errors);
+    // console.log('values of formik ', formik.values);
+    // console.log('errors of formik ', formik.errors);
 
   return (
     <div className='container mx-auto py-10'>
@@ -67,6 +94,7 @@ function AddPost() {
                     onChange={formik.handleChange}
                 />
             </div>
+
             <div className='mb-8'>
                 <label className='block text-gray-700 font-bold'>
                     Post Content
@@ -79,9 +107,23 @@ function AddPost() {
                     value={formik.values.content}
                     onChange={formik.handleChange}
                 ></textarea>
-                <button className='bg-blue-500 hove:bg- blue-700 text-white font-bold p-3'>Submit post</button>
-                
+            <div className='mb-5'>
+                <label for="featured_image" className='block text-gray-700 font-bold'>
+                    Featured Image
+                </label>
+                <input 
+                    className='shadow border-2 w-full px-3'
+                    type='file'
+                    id="featured_image"
+                    name='featured_image'
+                    // value={formik.values.featured_image} 
+                    onChange={ (e) => {formik.setFieldValue('featured_image', e.target.files[0])} }
+                />
             </div>
+                <button className='bg-blue-500 hove:bg- blue-700 text-white font-bold p-3'>Submit post</button>
+            </div>
+
+
         </form>
     </div>
   )

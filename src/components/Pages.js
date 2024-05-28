@@ -23,7 +23,7 @@ function Pages() {
         <Route path="/login" element={<Login />} />
 
         <Route element={<ProtectedRoute authUser={authUser} />}>
-          <Route path="/addpost" element={<AddPost />} />
+          <Route path="/addpost" element={<AddPost authUser={authUser} />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
         
