@@ -35,35 +35,20 @@ function AddPost( { authUser } ) {
                 Authorization : `Bearer ${token}`
             }
 
-            // let featuredMediaId = 0;
-
-            const formData = new FormData();
-            formData.append('title', data.title);
-            formData.append('content', data.content);
+            let featuredMediaId = 0;
 
             if(data.featured_image) {
                 // featured image
-                // const formData = new FormData();
-                formData.append('featured_img', data.featured_image);
+                const formData = new FormData();
+                formData.append('file', data.featured_image);
     
-                // const res = await axios.post(`${process.env.REACT_APP_API_ROOT}/media`, formData, {
-                //     headers: headers,
-                //     'Content-Type': 'multipart/form-data'
-                // })
-                // featuredMediaId = res.data.id
-            }
-
-            const res = await axios.post(`${process.env.REACT_APP_API_ROOT}/create-post`, formData, {
+                const res = await axios.post(`${process.env.REACT_APP_API_ROOT}/media`, formData, {
                     headers: headers,
                     'Content-Type': 'multipart/form-data'
-            })
-
-            console.log('res', res);
-
-
+                })
+                featuredMediaId = res.data.id
+            }
             
-           
-           /*
             // create post
             const post = {
                 // ...data,
@@ -86,8 +71,6 @@ function AddPost( { authUser } ) {
             .catch((err) => {
                 console.log('error ', err.message);
             })
-
-            */
         }
     });
 
