@@ -9,6 +9,7 @@ import AddPost from './pages/AddPost'
 import { useSelector } from 'react-redux'
 import ProtectedRoute from './pages/protectedRoutes'
 import Profile from './pages/profile'
+import Register from './pages/Register'
 
 function Pages() {
   const authUser = useSelector((state) => state.auth.user);
@@ -21,6 +22,7 @@ function Pages() {
         <Route path="/posts" element={<Posts />} />
         <Route path="/posts/:id" element={<PostSingle />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         <Route element={<ProtectedRoute authUser={authUser} />}>
           <Route path="/addpost" element={<AddPost authUser={authUser} />} />
